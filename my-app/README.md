@@ -1,3 +1,24 @@
+# Introduction from Ivan 
+
+Thank you for giving me the opportunity to apply to the Web Engineer role at Depop. 
+Apologies for the lack of personal touch on the readme, just thought that the Create React App template already has all the information 
+
+If you are to run the development version of course remember to install Node onto your device [Here](https://nodejs.org/en/download/)
+
+You can run a production version of the app by:
+1. Ensuring you have the serve NPM library installed by running: npm install -g serve
+2. in my-app run serve -s build
+
+Frameworks and libraries used: 
+1. Axios for HTTP Requests
+2. Material UI for basic components, flexible grid framework and icons
+
+
+The only part of the app that I didn't get time to do was the list of liked items that opened from the like button on the header (this is due to having work commitments on my current job as I worked some of the weekend also). I would have mapped an array of strings to over a "List Element" component or using a modified version of the Simple Menu Modal implementation in Material UI - organised into a column via Material UI GRID. The logic would've been an extended version of the use of the React Context API that I used to handle the count of "liked" products 
+
+If I had more time, I would also ARIA label the app so that it was more accessible.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -14,10 +35,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 

@@ -12,6 +12,7 @@ import { Header } from "./Components/Header";
 import { ImageCard } from "./Components/ImageCard";
 import { GenericButton } from "./Components/GenericButton";
 import { filterSoldProducts } from "./Utils/ProductProcess";
+import LoadingSpinner from "./Media/Images/LoadingSpinner.gif";
 
 //styles
 const useStyles = makeStyles({
@@ -22,6 +23,12 @@ const useStyles = makeStyles({
   listMenu: {
     padding: 10,
     whiteSpace: "nowrap",
+  },
+  loadingSpinner: {
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+    float: "none"
   },
 });
 
@@ -114,14 +121,14 @@ export const App: React.FunctionComponent = () => {
     <AppProvider>
       <div className={classes.root}>
         <ThemeProvider theme={theme}>
-          <Header/>
+          <Header />
           <Grid
             container
             direction="row"
             justify="space-evenly"
             alignItems="center"
           >
-            <Grid item md={2}  />
+            <Grid item md={2} />
             <Grid
               item
               container
@@ -187,7 +194,13 @@ export const App: React.FunctionComponent = () => {
       </div>
     </AppProvider>
   ) : (
-    <div>Page Not Loaded</div>
+    <div>
+      <img
+        className={classes.loadingSpinner}
+        src={LoadingSpinner}
+        alt={"Loading Spinner"}
+      />
+    </div>
   );
 };
 
