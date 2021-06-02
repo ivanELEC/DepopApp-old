@@ -1,4 +1,4 @@
-import React from "react"; // we need this to make JSX compile
+import React, { useState,  useContext } from "react";
 import {
   makeStyles,
   Card,
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     borderColor: "#DADCE1",
     borderRadius: 4,
     background: "#FFFFFF",
-    height: "25vh",
+    height: "18vh",
     webkitBoxShadow: "none",
     mozBoxShadow: "none",
     boxShadow: "none",
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
   overlayText: {
     textAlign: "center",
     verticalAlign: "middle",
-    lineHeight: "25vh",
+    lineHeight: "18vh",
     color: "white",
   },
   subtitle1: {
@@ -53,19 +53,42 @@ const useStyles = makeStyles({
 
 export const ImageCard: React.FunctionComponent<BasicImgCard> = (props) => {
   const classes = useStyles();
-  //hooks
+  //hooks//
+  
+  //hook to store like status of 
+  const[buttonLike, setButtonLike] = useState<boolean>(false);
 
-  //effects
+  
+  //functions//
+  const handleLike = () => {
+    //if button is currently unliked, increase likeCount in session storage - else decrease like count
+    if(buttonLike==false){
+      let likeCountStr = sessionStorage.getItem("likeCount");
+      let likeCount = parseInt(likeCountStr);
+      likeCount = likeCount + 1;
+      likeCountStr = likeCount.toString();
+      sessionStorage.setItem("likeCount", likeCountStr);
+    }
+    else{
+      let likeCountStr = sessionStorage.getItem("likeCount");
+      let likeCount = parseInt(likeCountStr);
+      likeCount = likeCount - 1;
+      likeCountStr = likeCount.toString();
+      sessionStorage.setItem("likeCount", likeCountStr);
+    }
+    //toggle state of button
+    setButtonLike(!buttonLike);
+  }
 
-  //element render
+  //element render//
   return (
     <div>
       <Card className={classes.root}>
         <CardMedia alt={props.title} component="img" image={props.image} />
 
         <CardContent>
-          <div className={classes.likeButton}>
-            <LikeButton like={props.like} />
+          <div className={classes.likeButton} onClick={() => handleLike()}>
+            <LikeButton hasCount={false} count={0} like={buttonLike}/>
           </div>
           {props.sold ? (
             <div className={classes.overlay}>

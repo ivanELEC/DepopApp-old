@@ -7,17 +7,25 @@ import {
   createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core";
+import AppProvider from "./Context/AppContext";
 import { Header } from "./Components/Header";
 import { ImageCard } from "./Components/ImageCard";
+import { GenericButton } from "./Components/GenericButton";
 import { filterSoldProducts } from "./Utils/ProductProcess";
 
+//styles
 const useStyles = makeStyles({
   root: {
     backgroundColor: "#F1F2F6",
     color: "#1B1B1B",
   },
+  listMenu: {
+    padding: 10,
+    whiteSpace: "nowrap",
+  },
 });
 
+//theme to use throughout the app
 const theme = createMuiTheme({
   typography: {
     fontFamily: "Segoe UI",
@@ -44,7 +52,7 @@ export const App: React.FunctionComponent = () => {
     },
   ]);
 
-  const [filteredProductData, setFilteredProductData] =  useState<Product[]>([
+  const [filteredProductData, setFilteredProductData] = useState<Product[]>([
     {
       id: "",
       date: new Date(),
@@ -87,11 +95,10 @@ export const App: React.FunctionComponent = () => {
 
   //effect for handling filter and unfilter of records
   useEffect(() => {
-    if(productFilter==true){
-      let result = filterSoldProducts(productData,false);
+    if (productFilter == true) {
+      let result = filterSoldProducts(productData, false);
       setFilteredProductData(result);
-    }
-    else if(productFilter==false){
+    } else if (productFilter == false) {
       setFilteredProductData(productData);
     }
   }, [productFilter]);
@@ -104,72 +111,81 @@ export const App: React.FunctionComponent = () => {
 
   //element render
   return pageLoaded ? (
-    <div className={classes.root}>
-      <ThemeProvider theme={theme}>
-        <Header />
-        <Grid
-          container
-          direction="row"
-          justify="space-evenly"
-          alignItems="center"
-        >
-          <Grid item xs={2} />
+    <AppProvider>
+      <div className={classes.root}>
+        <ThemeProvider theme={theme}>
+          <Header/>
           <Grid
-            item
             container
             direction="row"
             justify="space-evenly"
             alignItems="center"
-            xs={8}
           >
-            <Grid item xs={2}>
-              {productQty} Results
+            <Grid item xs={2} />
+            <Grid
+              item
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="center"
+              xs={8}
+              className={classes.listMenu}
+              spacing={0}
+            >
+              <Grid item xs={2}>
+                {productQty} Results
+              </Grid>
+              <Grid item xs={8} />
+              <Grid item xs={2}>
+                <div onClick={() => setProductFilter(!productFilter)}>
+                  <GenericButton
+                    defaultText="Hide Sold Items"
+                    clickedText="Unhide Sold Items"
+                  />
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={8} />
-            <Grid item xs={2}>
-              <button onClick={() => setProductFilter(!productFilter)}>Hide Sold Items</button>
-            </Grid>
+            <Grid item xs={2} />
           </Grid>
-          <Grid item xs={2} />
-        </Grid>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={0}
-        >
-          <Grid item xs={1} md={2} />
           <Grid
             container
-            item
             direction="row"
             justify="center"
             alignItems="center"
-            spacing={2}
-            xs={10}
-            md={8}
+            spacing={0}
           >
-            {filteredProductData.map((product) => (
-              <React.Fragment>
-                <Grid key={product.id} item xs={12} sm={6} lg={4}>
-                  <ImageCard
-                    image={product.img}
-                    like={false}
-                    sold={product.sold}
-                    title={product.name}
-                    brand={product.brand}
-                    size={product.size}
-                    price={product.price}
-                  />
-                </Grid>
-              </React.Fragment>
-            ))}
+            <Grid item xs={1} />
+            <Grid
+              container
+              item
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={2}
+              xs={10}
+              md={8}
+            >
+              {filteredProductData.map((product) => (
+                <React.Fragment>
+                  <Grid key={product.id} item xs={12} sm={6} lg={3}>
+                    <ImageCard
+                      image={product.img}
+                      like={false}
+                      sold={product.sold}
+                      title={product.name}
+                      brand={product.brand}
+                      size={product.size}
+                      price={product.price}
+                    />
+                  </Grid>
+                </React.Fragment>
+              ))}
+            </Grid>
+            <Grid item xs={1} />
           </Grid>
-          <Grid item xs={1} md={2} />
-        </Grid>
-      </ThemeProvider>
-    </div>
+        </ThemeProvider>
+      </div>
+    </AppProvider>
   ) : (
     <div>Page Not Loaded</div>
   );

@@ -24,6 +24,12 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!--this script clears out the session storage when the page loads
+      this is needed because the API for products returns random products each time the user enters the app so the previous likes
+      won't persist
+      in a scenario closer to reality, the product data would be persistent for the user via an API or local/session storage
+    -->
+    <script>sessionStorage.clear();</script>
     <title>React App</title>
   </head>
   <body>
