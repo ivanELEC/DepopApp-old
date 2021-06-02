@@ -121,7 +121,7 @@ export const App: React.FunctionComponent = () => {
             justify="space-evenly"
             alignItems="center"
           >
-            <Grid item xs={2} />
+            <Grid item md={2}  />
             <Grid
               item
               container
@@ -145,7 +145,7 @@ export const App: React.FunctionComponent = () => {
                 </div>
               </Grid>
             </Grid>
-            <Grid item xs={2} />
+            <Grid item md={2} />
           </Grid>
           <Grid
             container

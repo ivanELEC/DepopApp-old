@@ -1,7 +1,6 @@
-import React, {useContext} from "react"; // we need this to make JSX compile
+import React, { useContext } from "react"; // we need this to make JSX compile
 import { Grid, makeStyles } from "@material-ui/core";
 import { LikeButton } from "./LikeButton";
-import { BasicHeader } from "../Interfaces/Header";
 import { AppContext } from "../Context/AppContext";
 
 const useStyles = makeStyles({
@@ -19,11 +18,7 @@ export const Header: React.FunctionComponent = () => {
   //hooks//
 
   //context hooks from AppContext to handle likes
-  const {likeCount} = useContext(AppContext);
-
-
-
-  //effects
+  const { likeCount } = useContext(AppContext);
 
   //element render
   return (
@@ -35,7 +30,7 @@ export const Header: React.FunctionComponent = () => {
         alignItems="center"
         spacing={0}
       >
-        <Grid item xs={1}>
+        <Grid item xs={2} md={1}>
           <LikeButton hasCount={true} count={likeCount} like={false} />
         </Grid>
       </Grid>

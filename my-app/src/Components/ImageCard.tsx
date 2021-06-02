@@ -1,4 +1,4 @@
-import React, { useState,  useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   makeStyles,
   Card,
@@ -6,8 +6,10 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
+import { AppContext } from "../Context/AppContext";
 import { BasicImgCard } from "../Interfaces/ImageCard";
 import { LikeButton } from "./LikeButton";
+
 //component styles
 const useStyles = makeStyles({
   root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
     bottom: 0,
     left: 0,
     backgroundColor: "rgba(0,0,0,0.4)",
-    zIndex:0
+    zIndex: 0,
   },
   overlayText: {
     textAlign: "center",
@@ -47,38 +49,33 @@ const useStyles = makeStyles({
     position: "absolute",
     right: "1vh",
     top: "1vh",
-    zIndex:1
+    zIndex: 1,
   },
 });
 
 export const ImageCard: React.FunctionComponent<BasicImgCard> = (props) => {
   const classes = useStyles();
   //hooks//
-  
-  //hook to store like status of 
-  const[buttonLike, setButtonLike] = useState<boolean>(false);
 
-  
+  //hook to store like status of
+  const [buttonLike, setButtonLike] = useState<boolean>(false);
+
+  //context hook for like count
+  const { likeCount, changeLikeCount } = useContext(AppContext);
+
   //functions//
   const handleLike = () => {
-    //if button is currently unliked, increase likeCount in session storage - else decrease like count
-    if(buttonLike==false){
-      let likeCountStr = sessionStorage.getItem("likeCount");
-      let likeCount = parseInt(likeCountStr);
-      likeCount = likeCount + 1;
-      likeCountStr = likeCount.toString();
-      sessionStorage.setItem("likeCount", likeCountStr);
+    //if button is currently unliked, increase likeCount via context - else decrease like count
+    let newLikeCount = 0;
+    if (buttonLike == false) {
+      newLikeCount = likeCount + 1;
+    } else {
+      newLikeCount = likeCount - 1;
     }
-    else{
-      let likeCountStr = sessionStorage.getItem("likeCount");
-      let likeCount = parseInt(likeCountStr);
-      likeCount = likeCount - 1;
-      likeCountStr = likeCount.toString();
-      sessionStorage.setItem("likeCount", likeCountStr);
-    }
+    changeLikeCount(newLikeCount);
     //toggle state of button
     setButtonLike(!buttonLike);
-  }
+  };
 
   //element render//
   return (
@@ -88,7 +85,7 @@ export const ImageCard: React.FunctionComponent<BasicImgCard> = (props) => {
 
         <CardContent>
           <div className={classes.likeButton} onClick={() => handleLike()}>
-            <LikeButton hasCount={false} count={0} like={buttonLike}/>
+            <LikeButton hasCount={false} count={0} like={buttonLike} />
           </div>
           {props.sold ? (
             <div className={classes.overlay}>
